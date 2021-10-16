@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {Button} from 'reactstrap';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import TodoDoneComponent from './components/TodoDoneComponent';
+import TodosListComponents from './components/TodoListComponents';
+
+class App extends React.Component {
+  constructor(props) {
+   super(props);
+   this.state = {
+      todos: [
+        {
+          id: 1,
+          name: 'clean',
+          isDone: true,
+        },
+        {
+          id: 2,
+          name: 'do homework',
+          isDone: true,
+        },
+        {
+          id: 3,
+          name: 'cook',
+          isDone: false,
+        }
+      ]
+    }
+  }
+
+  finishAllTodos() {
+    const todos = [...this.state.todos];
+    todos.forEach(todo => todo.isDone = true);
+    this.setState({todos: todos})
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div><h1 className="display-3">My Todos</h1></div>
+        <TodosListComponents todos={this.state.todos} />
+        <Button color="primary" onClick={() => this.finishAllTodos()}>Finish all my todos</Button>
+        <TodoDoneComponent todos={this.state.todos} />
+      </div>
+    );
+  }
 }
 
 export default App;
