@@ -31,12 +31,14 @@ class App extends React.Component {
 
     this.finishAllTodos = this.finishAllTodos.bind(this);
     this.finishTodo = this.finishTodo.bind(this);
+    this.addTodo = this.addTodo.bind(this);
   }
 
   finishAllTodos() {
-  const todos = [...this.state.todos];
-  todos.forEach(todo => todo.isDone = true);
-  this.setState({todos: todos})
+    const todoProperty = "todos"
+    const todos = [...this.state.todos];
+    todos.forEach(todo => todo.isDone = true);
+    this.setState({[todoProperty]: todos})
   }
 
   finishTodo(todoId) {
@@ -46,10 +48,18 @@ class App extends React.Component {
     this.setState({todos: todos})
   }
 
+  // todo: {name: 'groceries', isDone: false}
+  addTodo(todo) {
+    const todos = this.state.todos;
+    const newTodo = {id: todos.length + 1, ...todo};
+    todos.push(newTodo);
+    this.setState({todos: todos});
+  }
+
   render() {
 
     const HomePage = () => {
-      return <MainComponent todos={this.state.todos} onFinishAll={this.finishAllTodos} onFinish={this.finishTodo}/>
+      return <MainComponent todos={this.state.todos} onFinishAll={this.finishAllTodos} onFinish={this.finishTodo} addTodo={this.addTodo}/>
     }
 
     const Todo = ({match}) => {

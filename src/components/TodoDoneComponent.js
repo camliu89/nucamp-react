@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import { Alert } from 'reactstrap';
+import { connect } from "react-redux";
 
-export default class TodoDoneComponent extends Component {
+
+class TodoDoneComponent extends Component {
   render() {
     if(this.props.todos.every(todo => todo.isDone)) {
       return (
-         <Alert style={{marginTop: '20px'}}><strong>I am done with my todos of the day!</strong></Alert>
+         <Alert style={{marginTop: '20px'}}>
+           <strong>{this.props.firstName} {this.props.lastName}, You are done with your todos of the day!</strong>
+          </Alert>
       )
     }
 
@@ -13,3 +17,12 @@ export default class TodoDoneComponent extends Component {
 
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+  };
+};
+
+export default connect(mapStateToProps)(TodoDoneComponent);
